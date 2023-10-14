@@ -10,9 +10,9 @@ contract ERC20 {
     string private _name;
     string private _symbol;
 
-    uint256 private _totalSupply;
-    mapping(address owner => uint256) private _balances;
-    mapping(address owner => mapping(address spender => uint256)) private _allowances;
+    uint256 internal _totalSupply;
+    mapping(address owner => uint256) internal _balances;
+    mapping(address owner => mapping(address spender => uint256)) internal _allowances;
 
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
