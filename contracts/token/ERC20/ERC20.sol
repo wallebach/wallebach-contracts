@@ -2,17 +2,16 @@
 
 pragma solidity ^0.8.20;
 
-contract ERC20 {
+import {IERC20} from "../../interfaces/IERC20.sol";
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
-
+contract ERC20 is IERC20 {
     string private _name;
     string private _symbol;
 
     uint256 internal _totalSupply;
     mapping(address owner => uint256) internal _balances;
-    mapping(address owner => mapping(address spender => uint256)) internal _allowances;
+    mapping(address owner => mapping(address spender => uint256))
+        internal _allowances;
 
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
@@ -44,7 +43,11 @@ contract ERC20 {
         return true;
     }
 
-    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) public returns (bool) {
         _spendAllowance(from, to, value);
         _transfer(from, to, value);
         return true;
@@ -55,7 +58,10 @@ contract ERC20 {
         return true;
     }
 
-    function allowance(address owner, address spender) public view returns (uint256) {
+    function allowance(
+        address owner,
+        address spender
+    ) public view returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -64,7 +70,7 @@ contract ERC20 {
         require(to != address(0), "Can't transfer to zero address");
 
         _update(from, to, value);
-        
+
         emit Transfer(from, to, value);
     }
 
@@ -73,11 +79,15 @@ contract ERC20 {
         require(spender != address(0), "Can't transfer to zero address");
 
         _allowances[owner][spender] = value;
-        
+
         emit Approval(owner, spender, value);
     }
 
-    function _spendAllowance(address owner, address spender, uint256 value) private {
+    function _spendAllowance(
+        address owner,
+        address spender,
+        uint256 value
+    ) internal {
         uint256 currentAllowance = _allowances[owner][spender];
         require(currentAllowance >= value);
         if (currentAllowance != type(uint256).max) {
@@ -85,13 +95,17 @@ contract ERC20 {
         }
     }
 
-    function _update(address from, address to, uint256 value) private returns (bool) {
+    function _update(
+        address from,
+        address to,
+        uint256 value
+    ) internal returns (bool) {
         if (from == address(0)) {
             _totalSupply += value;
         } else {
             require(_balances[from] >= value, "Not enough balance");
 
-            unchecked{
+            unchecked {
                 _balances[from] -= value;
             }
         }
