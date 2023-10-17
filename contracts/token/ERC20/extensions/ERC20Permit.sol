@@ -42,18 +42,7 @@ contract ERC20Permit is ERC20 {
                     abi.encodePacked(
                         "\x19\x01",
                         DOMAIN_SEPARATOR(),
-                        keccak256(
-                            abi.encode(
-                                keccak256(
-                                    "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
-                                ),
-                                owner,
-                                spender,
-                                value,
-                                _nonces[owner]++,
-                                deadline
-                            )
-                        )
+                        PERMIT_TYPEHASH(owner, spender, value, deadline)
                     )
                 ),
                 v,
@@ -82,6 +71,27 @@ contract ERC20Permit is ERC20 {
                     keccak256("1"),
                     chainId(),
                     address(this)
+                )
+            );
+    }
+
+    function PERMIT_TYPEHASH(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline
+    ) public returns (bytes32) {
+        return
+            keccak256(
+                abi.encode(
+                    keccak256(
+                        "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
+                    ),
+                    owner,
+                    spender,
+                    value,
+                    _nonces[owner]++,
+                    deadline
                 )
             );
     }

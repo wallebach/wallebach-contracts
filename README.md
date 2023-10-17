@@ -6,3 +6,4 @@ Inspired by:
 
 - [openzeppelin-contracts](https://github.com/OpenZeppelin/openzeppelin-contracts/)
 - [solmate](https://github.com/transmissions11/solmate)
+- [Compound](https://docs.compound.finance/v2/)

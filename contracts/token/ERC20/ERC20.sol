@@ -99,7 +99,7 @@ contract ERC20 is IERC20 {
         address from,
         address to,
         uint256 value
-    ) internal returns (bool) {
+    ) internal virtual returns (bool) {
         if (from == address(0)) {
             _totalSupply += value;
         } else {
