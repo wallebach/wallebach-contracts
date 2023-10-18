@@ -1,4 +1,4 @@
-// SPDX-License-Indentifier: MIT
+// SPDX-License-Identifier: MIT
 // Wallebach Contracts (contracts/token/ERC20/ERC4626.sol)
 
 pragma solidity ^0.8.20;
